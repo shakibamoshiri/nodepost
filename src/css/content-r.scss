@@ -1,0 +1,30 @@
+.content-r {
+	margin: 0 25%;
+	position: relative;
+}
+
+@mixin responsive( $size ){
+	@media screen and (max-width: $size ){
+		@content;
+	}
+}
+
+@include responsive( 1024px ){
+	.content-x-item { flex: 1 1 25%; }
+	.content-r { margin: auto 7.5%; }
+}
+
+@include responsive( 768px ){
+	.content-x-item { flex: 1 1 50%; }
+	.content-r { margin: auto 3.75%; }
+}
+
+@include responsive( 576px ){
+	.content-x-item {flex: 1 1 75%; }
+	.content-r { margin: auto 1.8%; }
+}
+
+@include responsive( 432px ){
+	.content-x-item { flex: 1 1 100%; }
+//	.content-r { margin: auto 0; }
+}

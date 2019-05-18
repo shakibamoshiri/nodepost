@@ -1,0 +1,103 @@
+/* desktop & phone */
+html, body {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 15px;
+  height: 100%;
+  overflow: hidden; }
+
+body {
+  position: relative;
+  overflow: auto;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif; }
+
+.header {
+  height: 300px;
+  background-color: #fe0;
+  display: flex; }
+
+.footer {
+  background-color: #fe0;
+  display: flex; }
+
+.main {
+  margin: 100px 0 100px 0; }
+
+a {
+  text-decoration: none;
+  color: #c00; }
+
+.article {
+  box-shadow: 0 0 5px #ccc;
+  padding: 10px;
+  margin: 50px 0 50px 0; }
+
+main {
+  margin: 100px 0 100px 0; }
+
+.main {
+  margin: 100px 0 100px 0; }
+
+p {
+  font-size: 17px; }
+
+.update > i {
+  margin-top: 20px;
+  display: inline-block; }
+
+/*
+.language-javascript.line-numbers > code:first-of-type::after {
+  content: "";
+  position: relative;
+  left: 95%;
+  bottom: 20px;
+  border-width: 20px;
+  border-style: solid;
+  border-color: transparent transparent transparent #fe0;
+  width: 0;
+  height: 0;
+  display: block;
+  cursor: pointer;
+}
+*/
+.eval-code {
+  background: #fff;
+  display: block;
+  color: #000;
+  padding: 10px; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/vendor/fonts/Montserrat-ExtraLight.ttf") format("truetype"); }
+@font-face {
+  font-family: "Vazir";
+  src: url("/vendor/fonts/Vazir-Light.ttf") format("truetype"); }
+.content-r {
+  margin: 0 25%;
+  position: relative; }
+
+@media screen and (max-width: 1024px) {
+  .content-x-item {
+    flex: 1 1 25%; }
+
+  .content-r {
+    margin: auto 7.5%; } }
+@media screen and (max-width: 768px) {
+  .content-x-item {
+    flex: 1 1 50%; }
+
+  .content-r {
+    margin: auto 3.75%; } }
+@media screen and (max-width: 576px) {
+  .content-x-item {
+    flex: 1 1 75%; }
+
+  .content-r {
+    margin: auto 1.8%; } }
+@media screen and (max-width: 432px) {
+  .content-x-item {
+    flex: 1 1 100%; } }
+
+/*# sourceMappingURL=desktop.prefixed.css.map */

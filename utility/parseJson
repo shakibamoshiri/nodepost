@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+const fs = require( "fs" );
+const path = require( "path" );
+const log = console.log;
+
+const programName = path.basename( process.argv[ 1 ] );
+const filename = process.argv[ 2 ];
+if( !filename ){
+    log( `${ programName } [Valid JSON file]` );
+    process.exit( 0 );
+}
+
+const json = (function(){
+    try {
+        return JSON.parse( fs.readFileSync( filename, "utf8" ) );
+    } catch( exception ){
+        log( exception.message );
+        log( "Do you have this file:", filename );
+        process.exit( 0 );
+    }
+
+}());
+
+log( json );
+

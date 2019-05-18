@@ -1,0 +1,27 @@
+/* 
+	Soma.css component
+*/
+
+
+.content-x {
+	display: flex;
+	flex-flow: row nowrap;
+//	margin: auto 15%;
+}
+
+.content-x.items-grow-equal > * { flex: 1 1 0; }
+
+
+.content-x-item {
+	position: relative;
+}
+
+.content-x-item.grow-0 { flex: 0 0 0; }
+.content-x-item.grow-1 { flex: 1 0 0; }
+.content-x-item.grow-2 { flex: 2 0 0; }
+.content-x-item.grow-3 { flex: 3 0 0; }
+.content-x-item.grow-4 { flex: 4 0 0; }
+.content-x-item.grow-5 { flex: 5 0 0; }
+.content-x-item.grow-auto { flex: 1 0 auto; }
+.content-x-item.grow-auto-force { flex: 1 0 auto !important; }
+

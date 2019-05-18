@@ -1,0 +1,15 @@
+node_modules/
+dev/
+rsync
+home/
+database/gitinfo
+database/route.dirs
+database/route.link
+database/route.path
+database/stat.json
+.sass-cache/
+*.sass-cache/
+.npmignore
+package-lock.json
+coverage/
+test/

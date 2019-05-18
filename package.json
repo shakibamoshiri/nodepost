@@ -1,0 +1,30 @@
+{
+  "name": "post-box",
+  "version": "1.0.0",
+  "description": "Bloggin in the Fun Way :)",
+  "main": "",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "multer": "^1.4.1",
+    "node-dev": "^4.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.5.1",
+    "postcss-cli": "^6.1.2"
+  },
+  "scripts": {
+    "start": "node-dev nodepost.js",
+    "css.build": "sass  src/css/desktop.scss build/css/desktop.css",
+    "css.build.min": "sass --style compressed src/css/desktop.scss build/css/desktop.min.css",
+    "css.prefix": "./node_modules/.bin/postcss build/css/desktop.css --use=autoprefixer --map --no-map --output build/css/desktop.prefixed.css",
+    "css.prefix.min": "minify build/css/desktop.prefixed.css > build/css/desktop.prefixed.min.css"
+  },
+  "keywords": [
+    "blog",
+    "blogging"
+  ],
+  "author": "Shakiba Moshiri",
+  "license": "MIT"
+}

@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+const fs = require( "fs" );
+const path = require( "path" );
+const log = console.log;
+
+const programName = path.basename( process.argv[ 1 ] )
+const filename = process.argv[ 2 ];
+if( !filename ){
+    log( `${ programName } [Valid JSON file]` );
+    process.exit( 0 );
+}
+
+const json = (function(){
+    try {
+        return JSON.parse( fs.readFileSync( filename, "utf8" ) );
+    } catch( exception ){
+        log( exception.message );
+        log( "Do you have this file:", filename );
+        process.exit( 0 );
+    }
+}());
+
+// route os a JSON
+// list will be filled for each path
+// parent will be the parent of nested directories
+// at first there is no parent
+function makeRoute( route, list = [], parent = "" ){
+	for( path in route ){
+		// dir is the directory name
+		// subdir is an Object contains other directories
+		const subRoute = route[ path ];
+
+		// parent directory if it has children
+		const parentDir = parent + "/" + path.replace( / +/g, "-" );
+
+		// store it
+		list.push( parentDir );
+
+		// when we have nested directories then
+		// recursively parse the new Object
+		if( typeof subRoute !== "string" ){
+			// subRoute will be new route
+			// list wil be the first one
+			// parentDir will be the new parent
+			makeRoute( subRoute, list, parentDir )
+		}
+	}
+	return list;
+}
+
+const route = makeRoute( json );
+log( route );
