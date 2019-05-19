@@ -36,9 +36,8 @@ const gitinfo = (function(){
         }
     } catch( exception ){
         log( exception.message );
-        log( "Add your username to database/gitusername for enabling EDIT_ON_GITHUB" );
-        log( "example: echo 'your-user-name' > database/gitusername" );
-        log( "Turn it off this message: touch database/gitusername" );
+        log( "Add your github info to database/gitinfo for enabling EDIT_ON_GITHUB" );
+        log( "example: echo 'user-name:repository-name' > database/gitinfo" );
         return undefined;
     }
 }());
