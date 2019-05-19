@@ -201,7 +201,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
                 fs.writeFileSync( absolutePath + "/header.html", header );
                 fs.writeFileSync( absolutePath + "/main.html", main );
                 routeDirs.push( path );
-                log( "\033[1;32mCreate File:\033[0m", path );
+                log( "\033[1;32mCreate File:\033[0m", "." + path );
             } catch( exception ){
                 log( exception.message );
             }
