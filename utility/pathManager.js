@@ -175,7 +175,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
 	<div class="content-r">
 		<h1>${ currentTitle  }</h1>
         ${ parentTitle === null && validRequest.map( function( path ){ return `<span>path:</span> <a href="${ path }">${ path }</a>`}).join( "<br>" ) || ""  }
-		####-##-##
+		DD_MM_YYYY
         <div class="edit-on-github">
             ${ gitinfo && `<a target="_blank" href="https://github.com/${ gitinfo[0] }/${ gitinfo[1] }/blob/master${ gitPath }/main.html">Edit on Github</a>`  || ""  }
         </div>
