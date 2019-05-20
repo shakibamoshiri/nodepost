@@ -152,7 +152,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
         
         // route.link file
         const routeLink = validRequest.map( function( request ){
-           const text = request === "/" ? routeJson[ 0 ].slice( 1 ) : request.match( /[A-Za-z0-9_-]+$/ );
+           const text = request === "/" ? routeJson[ 0 ].slice( 1 ) : request.match( /[A-Za-z0-9_.-]+$/ );
            return `<a href="${ request  }">${ text }</a>`
         }).join( "\n" ) + "\n";
 
@@ -166,7 +166,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
         // this is the first run all files in routeJson should be created
         notExistDirs.forEach (function( path, index ){
             // split each name
-            const names = path.match( /\/?[A-Za-z0-9_-]+/g );
+            const names = path.match( /\/?[A-Za-z0-9_.-]+/g );
             const gitPath = path.replace( homePath, "/" );
 
             // current title is the last on on the name with has "/" at the begging
@@ -174,7 +174,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
             const currentTitle = names.pop().replace( "/", "" ).toUpperCase();
 
             // parent title will be the last word in the list
-            const parentTitle = names.join( "" ).match( /[A-Za-z0-9_-]+$/ );
+            const parentTitle = names.join( "" ).match( /[A-Za-z0-9_.-]+$/ );
 
             // the pack link to the parent will be all names except the root name in the JSON file
             const parentLink = names.join( "" ).replace( homePath, "/" );
