@@ -44,7 +44,7 @@ const gitinfo = (function(){
 
 const baseURL = (function(){
     try {
-        return fs.readFileSync( "./database/gitinfo", "utf8" );
+        return fs.readFileSync( "./database/base.url", "utf8" );
     } catch( exception ){
         log( exception.message );
         log( "base.url not found. Defautl will be '/'" );
