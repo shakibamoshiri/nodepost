@@ -42,6 +42,16 @@ const gitinfo = (function(){
     }
 }());
 
+const baseURL = (function(){
+    try {
+        return fs.readFileSync( "./database/gitinfo", "utf8" );
+    } catch( exception ){
+        log( exception.message );
+        log( "base.url not found. Defautl will be '/'" );
+        return "";
+    }
+}());
+
 // route is a JSON
 // list will be filled for each path
 // parent will be the parent of nested directories
@@ -174,7 +184,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
 `<main>
 	<div class="content-r">
 		<h1>${ currentTitle  }</h1>
-        ${ parentTitle === null && validRequest.map( function( path ){ return `<span>path:</span> <a href="${ path }">${ path }</a>`}).join( "<br>" ) || ""  }
+        ${ parentTitle === null && validRequest.map( function( path ){ return `<span>path:</span> <a href="${ baseURL + path }">${ path }</a>`}).join( "<br>" ) || ""  }
 		DD_MM_YYYY
         <div class="edit-on-github">
             ${ gitinfo && `<a target="_blank" href="https://github.com/${ gitinfo[0] }/${ gitinfo[1] }/blob/master${ gitPath }/main.html">Edit on Github</a>`  || ""  }
@@ -187,10 +197,10 @@ function manageDir( routeJson, routeDirs, rootPath ){
 <div class="header">
         <div class="content-r">
           <h1>
-            ${ index === 0 ? 'Blogging in the Fun Way' : '<a href="/" >Blogging in the Fun Way</a>' }
+            ${ index === 0 ? 'Blogging in the Fun Way' : `<a href="${ baseURL }/" >Blogging in the Fun Way</a>` }
           </h1>
           <hr>
-          <h1><a href="${ parentLink }">${ parentTitle || "" }</a></h1>
+          <h1><a href="${ baseURL + parentLink }">${ parentTitle || "" }</a></h1>
         </div>
     </div>`;
 
