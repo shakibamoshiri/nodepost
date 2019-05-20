@@ -1,25 +1,14 @@
 {
     "home": {
-        "how-to-use": "",
-        "workflow": "",
-        "document": {
-            "directories" : "",
-            "files": {
-                "js": "",
-                "css": "",
-                "html": {
-                    "header": "",
-                    "header-child": "",
-                    "main": "",
-                    "footer": ""
-                }
-            },
-            "node-modules": "",
-            "server": ""
+        "Back end": {
+            "Node.js": "",
+            "Express.js": "",
+            "JSON": ""
         },
-        "github":"",
-        "one two": "",
-        "two three": "",
-        "A B C D": ""
+        "Front end": {
+            "JavaScript": "",
+            "HTML": "",
+            "CSS": ""
+        }
     }
 }
