@@ -26,7 +26,7 @@ const json = (function(){
 // parent will be the parent of nested directories
 // at first there is no parent
 function makeRoute( route, list = [], parent = "" ){
-	for( path in route ){
+	for( let path in route ){
 		// dir is the directory name
 		// subdir is an Object contains other directories
 		const subRoute = route[ path ];
