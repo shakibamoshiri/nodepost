@@ -63,7 +63,8 @@ function makeRoute( route, list = [], parent = "" ){
 		const subRoute = route[ path ];
 
 		// parent directory if it has children
-		const parentDir = parent + "/" + path;
+        // also remove extra white-spaces in the route.json file
+		const parentDir = parent + "/" + path.replace( / +/g, "-" );
 
 		// store it
 		list.push( parentDir );
@@ -125,11 +126,8 @@ function mTime( file, time ){
 // create and delete directories
 function manageDir( routeJson, routeDirs, rootPath ){
     
-    /// sort and replace extra spaces in found any in route.json file
-    routeJson = routeJson.sort()
-                         .map(function( item ){
-                            return item.replace( / +/g, "-" );
-                         });
+    /// sort
+    routeJson = routeJson.sort();
 
     if( routeDirs === undefined ){
         routeDirs = [];
