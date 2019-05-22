@@ -166,6 +166,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
             // split each name
             const names = path.match( /\/?[A-Za-z0-9_.-]+/g );
             const gitPath = path.replace( homePath, "/" );
+            const currentPath = gitPath;
 
             // current title is the last on on the name with has "/" at the begging
             // so "/" should be replaced with ""
@@ -191,7 +192,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
 </main>`;
 
             const header =
-`${ headerFile }
+`${ headerFile.replace( '<base href="">', `<base href="${ baseURL + currentPath  }/">` ) }
 <div class="header">
         <div class="content-r">
           <h1>
