@@ -165,8 +165,9 @@ function manageDir( routeJson, routeDirs, rootPath ){
         notExistDirs.forEach (function( path, index ){
             // split each name
             const names = path.match( /\/?[A-Za-z0-9_.-]+/g );
-            const gitPath = path.replace( homePath, "/" );
-            const currentPath = gitPath;
+            const tmp = path.replace( homePath, "/" );
+            const currentPath = tmp === "/" ? baseURL + tmp : baseURL + tmp + "/";
+            const gitPath = currentPath;
 
             // current title is the last on on the name with has "/" at the begging
             // so "/" should be replaced with ""
@@ -192,7 +193,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
 </main>`;
 
             const header =
-`${ headerFile.replace( '<base href="">', `<base href="${ baseURL + currentPath  }/">` ) }
+`${ headerFile.replace( '<base href="">', `<base href="${ currentPath }">` ) }
 <div class="header">
         <div class="content-r">
           <h1>
