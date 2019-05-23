@@ -1,5 +1,7 @@
 const fs = require( "fs" );
 const crypto = require('crypto');
+const user = require('../database/user.json');
+
 const log = console.log;
 
 const color = {
@@ -25,32 +27,12 @@ const headerFile = (function(){
     }
 }());
 
-const gitinfo = (function(){
-    try {
-        const t = fs.readFileSync( "./database/gitinfo", "utf8" ).split( ":" );
-        if( t.length === 2 ){
-            return t;
-        } else {
-            log( "correct pattern is: 'user-name:respository-name'" );
-            return undefined;
-        }
-    } catch( exception ){
-        log( exception.message );
-        log( "Add your github info to database/gitinfo for enabling EDIT_ON_GITHUB" );
-        log( "example: echo 'user-name:repository-name' > database/gitinfo" );
-        return undefined;
-    }
-}());
+const gitinfo = [];
+gitinfo[ 0 ] = user.git.username;
+gitinfo[ 1 ] = user.git.repository;;
 
-const baseURL = (function(){
-    try {
-        return fs.readFileSync( "./database/base.url", "utf8" ).trim();
-    } catch( exception ){
-        log( exception.message );
-        log( "base.url not found. Defautl will be '/'" );
-        return "";
-    }
-}());
+const baseURL = user.baseURL;
+const homepageTitle = user.homeTitle;
 
 // route is a JSON
 // list will be filled for each path
@@ -187,7 +169,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
         ${ parentTitle === null && validRequest.map( function( path ){ return `<span>path:</span> <a href="${ baseURL + path }">${ path }</a>`}).join( "<br>" ) || ""  }
 		DD_MM_YYYY
         <div class="edit-on-github">
-            ${ gitinfo && `<a target="_blank" href="https://github.com/${ gitinfo[0] }/${ gitinfo[1] }/blob/master${ gitPath }/main.html">Edit on Github</a>`  || ""  }
+            ${ gitinfo[0] && gitinfo[1] && `<a target="_blank" href="https://github.com/${ gitinfo[0] }/${ gitinfo[1] }/blob/master${ gitPath }main.html">Edit on Github</a>`  || ""  }
         </div>
 	</div>
 </main>`;
@@ -197,7 +179,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
 <div class="header">
         <div class="content-r">
           <h1>
-            ${ tmp === "/" ? 'Blogging in the Fun Way' : `<a href="${ baseURL }/" >Blogging in the Fun Way</a>` }
+            ${ tmp === "/" ?  homepageTitle : `<a href="${ baseURL }/" >${ homepageTitle }</a>` }
           </h1>
           <hr>
           <h1><a href="${ baseURL + parentLink }">${ parentTitle || "" }</a></h1>
