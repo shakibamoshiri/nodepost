@@ -197,7 +197,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
 <div class="header">
         <div class="content-r">
           <h1>
-            ${ index === 0 ? 'Blogging in the Fun Way' : `<a href="${ baseURL }/" >Blogging in the Fun Way</a>` }
+            ${ tmp === "/" ? 'Blogging in the Fun Way' : `<a href="${ baseURL }/" >Blogging in the Fun Way</a>` }
           </h1>
           <hr>
           <h1><a href="${ baseURL + parentLink }">${ parentTitle || "" }</a></h1>
