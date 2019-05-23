@@ -34,6 +34,18 @@ gitinfo[ 1 ] = user.git.repository;;
 const baseURL = user.baseURL;
 const homepageTitle = user.homeTitle;
 
+
+const mainHtmlDir = fs.existsSync( "main-html" );
+if( !mainHtmlDir ){
+    try {
+        fs.mkdirSync( "main-html" );
+        log( "\033[1;32mCreate\033[0m", "main-html directories" );
+    } catch( exception ){
+        log( exception.message );
+        process.exit( 0 );
+    }
+}
+
 // route is a JSON
 // list will be filled for each path
 // parent will be the parent of nested directories
@@ -153,7 +165,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
 
             // current title is the last on on the name with has "/" at the begging
             // so "/" should be replaced with ""
-            const currentTitle = names.pop().replace( "/", "" ).toUpperCase();
+            const currentTitle = names.pop().replace( "/", "" );
 
             // parent title will be the last word in the list
             const parentTitle = names.join( "" ).match( /[A-Za-z0-9_.-]+$/ );
@@ -197,6 +209,25 @@ function manageDir( routeJson, routeDirs, rootPath ){
             } catch( exception ){
                 log( exception.message );
             }
+
+            try {
+                fs.symlinkSync( absolutePath + "/main.html", "./main-html/" + currentTitle );
+            } catch( exception ){
+                if( exception.message.search( "EEXIST" ) === 0 ){
+                    try {
+                        const dirs =  absolutePath.split( "/" );
+                        const fileName = dirs.pop();
+                        const parentName = dirs.pop();
+                        if( parentName !== undefined ){
+                            fs.symlinkSync( absolutePath + "/main.html", "./main-html/" + fileName + "-in-" + parentName );
+                        } else {
+                            log( "Not able to create symbolic link for:", fileName );
+                        }
+                    } catch( exception ){
+                        log( exception.message );
+                    }
+                }
+            }
         }); // end of forEach of notExistDirs
 
         if( notExistDirs.length > 0 ){
@@ -213,6 +244,11 @@ function manageDir( routeJson, routeDirs, rootPath ){
         notExistKey.forEach(function( path ){
             try {
                 rmdirSyncRec( "." + path );
+                fs.readdirSync( "./main-html" ).forEach(function( file ){
+                    if( !fs.existsSync( "./main-html/" + file ) ){
+                        fs.unlinkSync( "./main-html/" + file );
+                    }
+                });
                 log( "\033[1;31mDelete File:\033[0m", "." + path );
             } catch( exception ){
                 log( exception.message );
