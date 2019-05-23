@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^9.5.1",
+    "mocha": "^6.1.4",
     "postcss-cli": "^6.1.2"
   },
   "scripts": {
