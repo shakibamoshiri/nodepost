@@ -12,4 +12,3 @@ database/stat.json
 .npmignore
 package-lock.json
 coverage/
-test/
