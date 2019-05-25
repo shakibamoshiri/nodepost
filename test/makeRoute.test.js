@@ -1,14 +1,14 @@
 const assert = require('assert');
 
-const utility = require('util');
+const util = require('util');
 const json = require( "../database/route.json" );
-const makeRoute = require( "../utility/makeRoute.js" );
+const makeRoute = require( "../path-manager/makeRoute.js" );
 
 describe( 'Run function: makeRoute( route, list=[], parent="" )', function(){
     
     const route = makeRoute( json );
     it( "return type should be an array", function(){
-        assert.equal( utility.isArray( route ), true );
+        assert.equal( util.isArray( route ), true );
     });
 
     it( "path in route should NOT contain white-spaces", function(){

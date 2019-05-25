@@ -1,7 +1,7 @@
 const fs       = require( "fs" );
 const path     = require( "path" );
 const express  = require( "express" );
-const pm       = require( "./utility/pathManager" );
+const pm       = require( "./path-manager/pathManager" );
 const route_json = require( "./database/route.json" );
 
 const log = console.log;
