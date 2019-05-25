@@ -107,15 +107,15 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
         }
 
         try {
-            fs.symlinkSync( absolutePath + "/main.html", "./main-html/" + currentTitle );
+            fs.symlinkSync( ".." + path  + "/main.html", "./main-html/" + currentTitle );
         } catch( exception ){
             if( exception.message.search( "EEXIST" ) === 0 ){
                 try {
-                    const dirs =  absolutePath.split( "/" );
+                    const dirs =  path.split( "/" );
                     const fileName = dirs.pop();
                     const parentName = dirs.pop();
                     if( parentName !== undefined ){
-                        fs.symlinkSync( absolutePath + "/main.html", "./main-html/" + fileName + "-in-" + parentName );
+                        fs.symlinkSync( ".." + path + "/main.html", "./main-html/" + fileName + "-in-" + parentName );
                     } else {
                         log( "Not able to create symbolic link for:", fileName );
                     }
