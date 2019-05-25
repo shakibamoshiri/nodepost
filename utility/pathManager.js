@@ -2,6 +2,11 @@ const fs = require( "fs" );
 const crypto = require('crypto');
 const user = require('../database/user.json');
 
+const rmdirSyncRec = require( "./rmdirSyncRec" );
+const makeStat = require( "./makeStat" );
+const makeRoute = require( "./makeRoute" );
+const getContent = require( "./getContent" );
+
 const log = console.log;
 
 const color = {
@@ -44,77 +49,6 @@ if( !mainHtmlDir ){
         log( exception.message );
         process.exit( 0 );
     }
-}
-
-// route is a JSON
-// list will be filled for each path
-// parent will be the parent of nested directories
-// at first there is no parent
-function makeRoute( route, list = [], parent = "" ){
-	for( path in route ){
-		// dir is the directory name
-		// subdir is an Object contains other directories
-		const subRoute = route[ path ];
-
-		// parent directory if it has children
-        // also remove extra white-spaces in the route.json file
-		const parentDir = parent + "/" + path.replace( / +/g, "-" );
-
-		// store it
-		list.push( parentDir );
-
-		// when we have nested directories then
-		// recursively parse the new Object
-		if( typeof subRoute !== "string" ){
-			// subRoute will be new route
-			// list wil be the first one
-			// parentDir will be the new parent
-			makeRoute( subRoute, list, parentDir )
-		}
-	}
-	return list;
-}
-
-// recursively delete file and directories
-function rmdirSyncRec( path ){
-    // check if it is a valid path
-    if( fs.existsSync( path ) ){
-        
-        // read the path to an array
-        fs.readdirSync( path ).forEach( function( file ){
-
-            // files in the path
-            // and new path
-            const newFile = path + "/" + file;;
-
-            // check if the new file is a directory or not
-            if( fs.statSync( newFile ).isDirectory() ){
-
-                // if it is repeat this process
-                rmdirSyncRec( newFile );
-            } else {
-
-                // if not so it is file
-                // delete it
-                fs.unlinkSync( newFile );
-            }
-        });
-        // stack is unwinded
-        fs.rmdirSync( path );
-    }
-}
-
-// update time based on last modification
-function mTime( file, time ){
-	const update =
-	`<div class="update">
-		<hr>
-		<i>Update: DD_MM_YYYY</i>
-	</div>`;
-
-	return file.replace( "DD_MM_YYYY", update )
-			   .replace( "DD_MM_YYYY", time );
-
 }
 
 // create and delete directories
@@ -279,35 +213,6 @@ function manageDir( routeJson, routeDirs, rootPath ){
         });
 
     } // end of hashes' comparison
-}
-
-
-function getContent( path, mtime ){
-	// const stat = fs.statSync( path );
-    const temp = fs.readFileSync( path + "/main.html", "utf8" );
-	
-    const header = fs.readFileSync( path + "/header.html", "utf8" );
-	const main = mTime( temp, mtime );
-	const footer = fs.readFileSync( path + "/footer.html", "utf8" );
-
-	return header + main + footer;
-}
-
-function makeStat( stat, request ){ 
-    const rp = request.path;
-    const lastIP = request.ip;
-    if( !stat[ rp ] ){
-        stat[ rp ] = { lastIP: "", request: 0, visitor: {} };
-    }
-    stat[ rp ].lastIP = lastIP;
-    stat[ rp ].request += 1;
-    stat[ rp ].visitor[ lastIP ] = ( stat[ rp ].visitor[ lastIP ] + 1 || 1 );
-    fs.writeFile( "./database/stat.json", JSON.stringify( stat ), function( error ){
-        if( error ){
-            console.log( error );
-        }
-    });
-    console.log( "Update state ...");
 }
 
 module.exports = { makeRoute, manageDir, getContent, makeStat };
