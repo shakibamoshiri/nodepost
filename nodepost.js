@@ -71,7 +71,7 @@ nodepost.get( "/*", function( request, response ){
     // it will be either one of:
     // true thus the path was found
     // false thus the path was not found
-    const validPath = routeJson.some( ( path ) => path.replace( / +/g, "-" ) === actualPath );
+    const validPath = routeJson.some( ( path ) => path === actualPath );
 
     // base on Valid Path
     switch( validPath ){
