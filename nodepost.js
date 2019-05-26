@@ -2,6 +2,7 @@ const fs       = require( "fs" );
 const path     = require( "path" );
 const express  = require( "express" );
 const pm       = require( "./path-manager/pathManager" );
+const rm       = require( "./route-manager/routeManager" );
 const route_json = require( "./database/route.json" );
 
 const log = console.log;
@@ -42,7 +43,7 @@ const routeDirs = (function(){
 }());
 
 // create an array of valid paths we have
-const routeJson = pm.makeRoute( route_json );
+const routeJson = rm.makeRoute( route_json );
 
 // create or delete new directories
 pm.manageDir( routeJson, routeDirs, __dirname  );
