@@ -10,6 +10,7 @@ const nodepost = express();
 
 const stat = dm.stat;
 const routeDirs = dm.routeDirs;
+const statPath = dm.statPath;
 const route_json = dm.route_json;
 
 // create an array of valid paths we have
@@ -45,9 +46,10 @@ nodepost.get( "/*", function( request, response ){
     const validPath = routeJson.some( ( path ) => path === actualPath );
 
     // base on Valid Path
+        log( "stat path", statPath );
     switch( validPath ){
         case false:
-        if( requestPath === "/stat" )
+        if( statPath !== "" && requestPath === statPath )
             response.send( stat );
          else
             response.send( pm.getContent( __dirname + "/error-page/404" ) );
