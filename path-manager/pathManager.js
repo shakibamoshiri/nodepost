@@ -1,11 +1,12 @@
 const fs = require( "fs" );
 const crypto = require('crypto');
-const user = require('../database/user.json');
+const dm  = require('../database-manager/databaseManager');
 
 const rmdirSyncRec = require( "./rmdirSyncRec" );
 const makeStat = require( "./makeStat" );
 const getContent = require( "./getContent" );
 
+const user = dm.user;
 const log = console.log;
 
 const color = {

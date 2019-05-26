@@ -20,16 +20,6 @@ const stat = (function(){
      }
 }());
 
-const statPath = (function(){
-    try {
-        return JSON.parse( fs.readFileSync( "./database/user.json" , "utf8" ) ).statPath;
-    } catch( exception ){
-        log( exception.message );
-        log( "statPath fallback will be /stat" );
-        return "/stat";
-    }
-}());
-
 // read route.dirs if not found create it
 const routeDirs = (function(){
     try {
@@ -47,4 +37,24 @@ const routeDirs = (function(){
     }
 }());
 
-module.exports = { stat, statPath, routeDirs, route_json };
+const user = (function(){
+    try {
+        return JSON.parse( fs.readFileSync( "./database/user.json" , "utf8" ) );
+    } catch( exception ){
+        log( exception.message );
+        log( "./database/user.json is required!" );
+        process.exit( 0 );
+     }
+}());
+
+const statPath = (function(){
+    try {
+        return JSON.parse( fs.readFileSync( "./database/user.json" , "utf8" ) ).statPath;
+    } catch( exception ){
+        log( exception.message );
+        log( "statPath fallback will be /stat" );
+        return "/stat";
+    }
+}());
+
+module.exports = { stat, statPath, routeDirs, route_json, user };
