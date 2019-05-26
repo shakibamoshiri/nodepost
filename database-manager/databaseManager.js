@@ -1,5 +1,8 @@
 const fs = require( "fs" );
+const co = require( "../path-manager/colorOrganizer" );
+
 const log = console.log;
+const toGreen = co.colorizeLine( "green" );
 
 // raw json file
 const route_json = require( "../database/route.json" );
@@ -9,7 +12,7 @@ const stat = (function(){
         return JSON.parse( fs.readFileSync( "./database/stat.json" , "utf8" ) );
     } catch( exception ){
         log( exception.message );
-        log( "Creating stat.json file" );
+        log( toGreen( "Create:" ), "stat.json" );
         try {
             fs.writeFileSync( "./database/stat.json", "{}" );
             return JSON.parse( fs.readFileSync( "./database/stat.json" , "utf8" ) );
@@ -26,7 +29,7 @@ const routeDirs = (function(){
         return fs.readFileSync( "./database/route.dirs", "utf8" );
     } catch( exception ){
         log( exception.message );
-        log( "Creating route.dirs" );
+        log( toGreen( "Create:" ),"route.dirs" );
         try {
             fs.writeFileSync( "./database/route.dirs", "" );
             return undefined;
