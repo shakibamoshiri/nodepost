@@ -4,7 +4,6 @@ const user = require('../database/user.json');
 
 const rmdirSyncRec = require( "./rmdirSyncRec" );
 const makeStat = require( "./makeStat" );
-const makeRoute = require( "./makeRoute" );
 const getContent = require( "./getContent" );
 
 const log = console.log;
@@ -227,4 +226,4 @@ function manageDir( routeJson, routeDirs, rootPath ){
     } // end of hashes' comparison
 }
 
-module.exports = { makeRoute, manageDir, getContent, makeStat };
+module.exports = { manageDir, getContent, makeStat };
