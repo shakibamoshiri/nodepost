@@ -46,7 +46,6 @@ nodepost.get( "/*", function( request, response ){
     const validPath = routeJson.some( ( path ) => path === actualPath );
 
     // base on Valid Path
-        log( "stat path", statPath );
     switch( validPath ){
         case false:
         if( statPath !== "" && requestPath === statPath )
