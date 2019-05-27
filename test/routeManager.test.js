@@ -2,7 +2,8 @@ const assert = require('assert');
 
 const util = require('util');
 const json = require( "../database/route.json" );
-const makeRoute = require( "../path-manager/makeRoute.js" );
+const rm = require( "../route-manager/routeManager.js" );
+const makeRoute = rm.makeRoute;
 
 describe( 'Run function: makeRoute( route, list=[], parent="" )', function(){
     
