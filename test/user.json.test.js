@@ -20,6 +20,9 @@ describe( "Validating user.json file", function(){
     });
   }
 
+  it( "user.statPath should start with '/'", function(){
+    assert.equal( user.statPath.startsWith( "/" ), true );
+  });
 
 
 })
