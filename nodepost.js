@@ -2,47 +2,19 @@ const fs       = require( "fs" );
 const path     = require( "path" );
 const express  = require( "express" );
 const pm       = require( "./path-manager/pathManager" );
-const route_json = require( "./database/route.json" );
+const rm       = require( "./route-manager/routeManager" );
+const dm       = require( "./database-manager/databaseManager" );
 
 const log = console.log;
 const nodepost = express();
 
-// read the stat.json file if not found create it
-const stat = (function(){
-    try {
-        return JSON.parse( fs.readFileSync( "./database/stat.json" , "utf8" ) );
-    } catch( exception ){
-        log( exception.message );
-        log( "Creating stat.json file" );
-        try {
-            fs.writeFileSync( "./database/stat.json", "{}" );
-            return JSON.parse( fs.readFileSync( "./database/stat.json" , "utf8" ) );
-        } catch( exception ){
-            log( exception.message );
-            process.exit( 0 );
-        }
-     }
-}());
-
-// read route.dirs if not found create it
-const routeDirs = (function(){
-    try {
-        return fs.readFileSync( "./database/route.dirs", "utf8" );
-    } catch( exception ){
-        log( exception.message );
-        log( "Creating route.dirs" );
-        try {
-            fs.writeFileSync( "./database/route.dirs", "" );
-            return undefined;
-        } catch( exception ){
-            log( exception.message );
-            process.exit( 0 );
-        }
-    }
-}());
+const stat = dm.stat;
+const routeDirs = dm.routeDirs;
+const statPath = dm.statPath;
+const route_json = dm.route_json;
 
 // create an array of valid paths we have
-const routeJson = pm.makeRoute( route_json );
+const routeJson = rm.makeRoute( route_json );
 
 // create or delete new directories
 pm.manageDir( routeJson, routeDirs, __dirname  );
@@ -76,7 +48,7 @@ nodepost.get( "/*", function( request, response ){
     // base on Valid Path
     switch( validPath ){
         case false:
-        if( requestPath === "/stat" )
+        if( statPath !== "" && requestPath === statPath )
             response.send( stat );
          else
             response.send( pm.getContent( __dirname + "/error-page/404" ) );

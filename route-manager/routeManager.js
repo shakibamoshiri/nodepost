@@ -27,4 +27,4 @@ function makeRoute( route, list = [], parent = "" ){
 	return list;
 }
 
-module.exports = makeRoute;
+module.exports = { makeRoute };

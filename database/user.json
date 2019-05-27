@@ -1,6 +1,7 @@
 {
   "homeTitle": "NodePost | Blogging in the Fun Way",
   "baseURL": "",
+  "statPath": "/stat",
   "git": {
     "username" : "",
     "repository": ""

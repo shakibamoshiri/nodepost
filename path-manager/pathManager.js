@@ -1,26 +1,21 @@
 const fs = require( "fs" );
 const crypto = require('crypto');
-const user = require('../database/user.json');
+const dm  = require('../database-manager/databaseManager');
 
 const rmdirSyncRec = require( "./rmdirSyncRec" );
 const makeStat = require( "./makeStat" );
-const makeRoute = require( "./makeRoute" );
 const getContent = require( "./getContent" );
+const co = require( "./colorOrganizer" );
 
+const CREATE = co.colorizeLine( "green" )( "Create:" );
+const DELETE   = co.colorizeLine( "red" )( "Delete:" );
+const LINK  = co.colorizeLine( "cyan" )( "Link:  " );
+const UNLINK  = co.colorizeLine( "cyan" )( "Unlink:" );
+const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
+const toYellow   = co.colorizeLine( "yellow" );
+
+const user = dm.user;
 const log = console.log;
-
-const color = {
-    black:  "\033[1;30m",
-    red:    "\033[1;31m",
-    green:  "\033[1;32m",
-    yellow: "\033[1;33m",
-    blue:   "\033[1;34m",
-    purple: "\033[1;35m",
-    cyan:   "\033[1;36m",
-    white:  "\033[1;37m",
-
-    reset:  "\033[0m"
-};
 
 const headerFile = (function(){
     try {
@@ -44,7 +39,7 @@ const mainHtmlDir = fs.existsSync( "main-html" );
 if( !mainHtmlDir ){
     try {
         fs.mkdirSync( "main-html" );
-        log( "\033[1;32mCreate\033[0m", "main-html directories" );
+        log( CREATE, "main-html/" );
     } catch( exception ){
         log( exception.message );
         process.exit( 0 );
@@ -101,13 +96,15 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
             fs.writeFileSync( absolutePath + "/header.html", header );
             fs.writeFileSync( absolutePath + "/main.html", main );
             routeDirs.push( path );
-            log( "\033[1;32mCreate File:\033[0m", "." + path );
+            log( CREATE, "." + path );
         } catch( exception ){
             log( exception.message );
         }
 
         try {
-            fs.symlinkSync( ".." + path  + "/main.html", "./main-html/" + currentTitle );
+            const dist = "./main-html/" + currentTitle;
+            fs.symlinkSync( ".." + path  + "/main.html", dist );
+            log( LINK, dist );
         } catch( exception ){
             if( exception.message.search( "EEXIST" ) === 0 ){
                 try {
@@ -115,7 +112,9 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
                     const fileName = dirs.pop();
                     const parentName = dirs.pop();
                     if( parentName !== undefined ){
-                        fs.symlinkSync( ".." + path + "/main.html", "./main-html/" + fileName + "-in-" + parentName );
+                        const dist = "./main-html/" + fileName + "-in-" + parentName;
+                        fs.symlinkSync( ".." + path + "/main.html", dist );
+                        log( LINK, dist );
                     } else {
                         log( "Not able to create symbolic link for:", fileName );
                     }
@@ -132,11 +131,13 @@ function deleteDir( notExistKey ){
         try {
             rmdirSyncRec( "." + path );
             fs.readdirSync( "./main-html" ).forEach(function( file ){
-                if( !fs.existsSync( "./main-html/" + file ) ){
-                    fs.unlinkSync( "./main-html/" + file );
+                const dist = "./main-html/" + file;
+                if( !fs.existsSync( dist ) ){
+                    fs.unlinkSync( dist );
+                    log( UNLINK, dist );
                 }
             });
-            log( "\033[1;31mDelete File:\033[0m", "." + path );
+            log( DELETE, "." + path );
         } catch( exception ){
             log( exception.message );
         }
@@ -148,21 +149,21 @@ function updateRoutes( routeDirs, routeLink, routePath ){
         if( error ){
             console.log( error.message );
         }
-        log( "\033[1;32mUpdate route.dirs ...\033[0m" );
+        log( UPDATE, "route.dirs ..." );
     });
 
     fs.writeFile( "./database/route.link", routeLink , function( error ){
         if( error ){
             console.log( error.message );
         }
-        log( "\033[1;32mUpdate route.link ...\033[0m" );
+        log( UPDATE, "route.link ..." );
     });
 
     fs.writeFile( "./database/route.path", routePath , function( error ){
         if( error ){
             console.log( error.message );
         }
-        log( "\033[1;32mUpdate route.path ...\033[0m" );
+        log( UPDATE, "route.path ..." );
     });
 }
 
@@ -185,7 +186,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
     // if there is a change in route.json file
     // try appropriate action
     if( hashJson !== hashDirs ){
-    log( "route.json md5:\033[1;33m", hashJson, "\033[0m" );
+    log( "route.json md5:", toYellow( hashJson ) );
     log( "route.dirs md5:", hashDirs );
 
         const homePath = new RegExp( routeJson[ 0 ]  + "/?" );
@@ -227,4 +228,4 @@ function manageDir( routeJson, routeDirs, rootPath ){
     } // end of hashes' comparison
 }
 
-module.exports = { makeRoute, manageDir, getContent, makeStat };
+module.exports = { manageDir, getContent, makeStat };
