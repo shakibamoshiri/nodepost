@@ -7,9 +7,11 @@ const makeStat = require( "./makeStat" );
 const getContent = require( "./getContent" );
 const co = require( "./colorOrganizer" );
 
-const toGreen = co.colorizeLine( "green" );
-const toRed   = co.colorizeLine( "red" );
-const toCyan  = co.colorizeLine( "cyan" );
+const CREATE = co.colorizeLine( "green" )( "Create:" );
+const DELETE   = co.colorizeLine( "red" )( "Delete:" );
+const LINK  = co.colorizeLine( "cyan" )( "Link:  " );
+const UNLINK  = co.colorizeLine( "cyan" )( "Unlink:" );
+const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
 const toYellow   = co.colorizeLine( "yellow" );
 
 const user = dm.user;
@@ -37,7 +39,7 @@ const mainHtmlDir = fs.existsSync( "main-html" );
 if( !mainHtmlDir ){
     try {
         fs.mkdirSync( "main-html" );
-        log( toGreen( "Create:" ), "main-html/" );
+        log( CREATE, "main-html/" );
     } catch( exception ){
         log( exception.message );
         process.exit( 0 );
@@ -94,7 +96,7 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
             fs.writeFileSync( absolutePath + "/header.html", header );
             fs.writeFileSync( absolutePath + "/main.html", main );
             routeDirs.push( path );
-            log( toGreen( "Create:" ), "." + path );
+            log( CREATE, "." + path );
         } catch( exception ){
             log( exception.message );
         }
@@ -102,7 +104,7 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
         try {
             const dist = "./main-html/" + currentTitle;
             fs.symlinkSync( ".." + path  + "/main.html", dist );
-            log( toCyan( "Link:  " ), dist );
+            log( LINK, dist );
         } catch( exception ){
             if( exception.message.search( "EEXIST" ) === 0 ){
                 try {
@@ -112,7 +114,7 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
                     if( parentName !== undefined ){
                         const dist = "./main-html/" + fileName + "-in-" + parentName;
                         fs.symlinkSync( ".." + path + "/main.html", dist );
-                        log( toCyan( "Link:  " ), "./main-html/" + dist );
+                        log( LINK, dist );
                     } else {
                         log( "Not able to create symbolic link for:", fileName );
                     }
@@ -132,10 +134,10 @@ function deleteDir( notExistKey ){
                 const dist = "./main-html/" + file;
                 if( !fs.existsSync( dist ) ){
                     fs.unlinkSync( dist );
-                    log( toCyan( "Unlink:" ), dist );
+                    log( UNLINK, dist );
                 }
             });
-            log( toRed( "Delete:" ), "." + path );
+            log( DELETE, "." + path );
         } catch( exception ){
             log( exception.message );
         }
@@ -147,21 +149,21 @@ function updateRoutes( routeDirs, routeLink, routePath ){
         if( error ){
             console.log( error.message );
         }
-        log( toYellow( "Update:" ), "route.dirs ..." );
+        log( UPDATE, "route.dirs ..." );
     });
 
     fs.writeFile( "./database/route.link", routeLink , function( error ){
         if( error ){
             console.log( error.message );
         }
-        log( toYellow( "Update:" ), "route.link ..." );
+        log( UPDATE, "route.link ..." );
     });
 
     fs.writeFile( "./database/route.path", routePath , function( error ){
         if( error ){
             console.log( error.message );
         }
-        log( toYellow( "Update:" ), "route.path ..." );
+        log( UPDATE, "route.path ..." );
     });
 }
 
