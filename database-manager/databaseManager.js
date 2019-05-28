@@ -6,7 +6,7 @@ const globalRootPath = __dirname.split( "/" ).slice( 0, -1 ).join( "/" );
 const toGreen = co.colorizeLine( "green" );
 
 // raw json file
-const route_json = require( "../database/route.json" );
+const postsJson = require( "../database/posts.json" );
 
 const stat = (function(){
     try {
@@ -61,4 +61,4 @@ const statPath = (function(){
     }
 }());
 
-module.exports = { stat, statPath, routeDirs, route_json, user };
+module.exports = { stat, statPath, routeDirs, postsJson, user };
