@@ -171,8 +171,7 @@ function updateRoutes( routeDirs, routeLink, routePath, rootPath ){
 // create and delete directories
 function manageDir( routeJson, routeDirs, rootPath ){
     
-    /// sort
-    routeJson = routeJson.sort();
+    routeJson.sort();
 
     if( routeDirs === undefined ){
         routeDirs = [];
@@ -184,10 +183,10 @@ function manageDir( routeJson, routeDirs, rootPath ){
     const hashJson = crypto.createHmac( "md5", routeJson.join( "" ) ).digest( "hex" );
     const hashDirs = crypto.createHmac( "md5", routeDirs.join( "" ) ).digest( "hex" );
 
-    // if there is a change in route.json file
+    // if there is a change in posts.json file
     // try appropriate action
     if( hashJson !== hashDirs ){
-    log( "route.json md5:", toYellow( hashJson ) );
+    log( "posts.json md5:", toYellow( hashJson ) );
     log( "route.dirs md5:", hashDirs );
 
         const homePath = new RegExp( routeJson[ 0 ]  + "/?" );
@@ -214,7 +213,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
         }
             
         // When we have change and notExistDirs === 0 it means
-        // something has changed but it is not adding to the route.json file
+        // something has changed but it is not adding to the posts.json file
         // maybe it is a remote or rename operation
         const notExistKey = routeDirs.filter(function( key ){
             return routeJson.indexOf( key ) === -1;
