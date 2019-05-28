@@ -2,6 +2,7 @@ const fs = require( "fs" );
 const co = require( "../path-manager/colorOrganizer" );
 
 const log = console.log;
+const globalRootPath = __dirname.split( "/" ).slice( 0, -1 ).join( "/" );
 const toGreen = co.colorizeLine( "green" );
 
 // raw json file
@@ -9,13 +10,13 @@ const route_json = require( "../database/route.json" );
 
 const stat = (function(){
     try {
-        return JSON.parse( fs.readFileSync( "./database/stat.json" , "utf8" ) );
+        return JSON.parse( fs.readFileSync( globalRootPath + "/database/stat.json" , "utf8" ) );
     } catch( exception ){
         log( exception.message );
         log( toGreen( "Create:" ), "stat.json" );
         try {
-            fs.writeFileSync( "./database/stat.json", "{}" );
-            return JSON.parse( fs.readFileSync( "./database/stat.json" , "utf8" ) );
+            fs.writeFileSync( globalRootPath + "/database/stat.json", "{}" );
+            return JSON.parse( fs.readFileSync( globalRootPath + "/database/stat.json" , "utf8" ) );
         } catch( exception ){
             log( exception.message );
             process.exit( 0 );
@@ -26,12 +27,12 @@ const stat = (function(){
 // read route.dirs if not found create it
 const routeDirs = (function(){
     try {
-        return fs.readFileSync( "./database/route.dirs", "utf8" );
+        return fs.readFileSync( globalRootPath + "/database/route.dirs", "utf8" );
     } catch( exception ){
         log( exception.message );
         log( toGreen( "Create:" ),"route.dirs" );
         try {
-            fs.writeFileSync( "./database/route.dirs", "" );
+            fs.writeFileSync( globalRootPath + "/database/route.dirs", "" );
             return undefined;
         } catch( exception ){
             log( exception.message );
@@ -42,7 +43,7 @@ const routeDirs = (function(){
 
 const user = (function(){
     try {
-        return JSON.parse( fs.readFileSync( "./database/user.json" , "utf8" ) );
+        return JSON.parse( fs.readFileSync( globalRootPath + "/database/user.json" , "utf8" ) );
     } catch( exception ){
         log( exception.message );
         log( "./database/user.json is required!" );
@@ -52,7 +53,7 @@ const user = (function(){
 
 const statPath = (function(){
     try {
-        return JSON.parse( fs.readFileSync( "./database/user.json" , "utf8" ) ).statPath;
+        return JSON.parse( fs.readFileSync( globalRootPath + "/database/user.json" , "utf8" ) ).statPath;
     } catch( exception ){
         log( exception.message );
         log( "statPath fallback will be /stat" );
