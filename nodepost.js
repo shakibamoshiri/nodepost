@@ -6,6 +6,7 @@ const rm       = require( "./route-manager/routeManager" );
 const dm       = require( "./database-manager/databaseManager" );
 
 const log = console.log;
+const rootPath = rootPath;
 const nodepost = express();
 
 const stat = dm.stat;
@@ -17,11 +18,11 @@ const route_json = dm.route_json;
 const routeJson = rm.makeRoute( route_json );
 
 // create or delete new directories
-pm.manageDir( routeJson, routeDirs, __dirname  );
+pm.manageDir( routeJson, routeDirs, rootPath );
 
 // always servse thise
-nodepost.use( "/build",  express.static( __dirname + "/build" ) );
-nodepost.use( "/vendor",  express.static( __dirname + "/vendor" ) );
+nodepost.use( "/build",  express.static( rootPath + "/build" ) );
+nodepost.use( "/vendor",  express.static( rootPath + "/vendor" ) );
 
 // cache each post after last modification
 const cache = {};
@@ -38,7 +39,7 @@ nodepost.get( "/*", function( request, response ){
 
 	const actualPath = requestPath === "/" ? routeJson[ 0 ] : routeJson[ 0 ] + requestPath;
 
-    const absolutePath = __dirname + actualPath;
+    const absolutePath = rootPath + actualPath;
 
     // it will be either one of:
     // true thus the path was found
@@ -51,7 +52,7 @@ nodepost.get( "/*", function( request, response ){
         if( statPath !== "" && requestPath === statPath )
             response.send( stat );
          else
-            response.send( pm.getContent( __dirname + "/error-page/404" ) );
+            response.send( pm.getContent( rootPath + "/error-page/404" ) );
         break;
 
         default:
@@ -61,7 +62,7 @@ nodepost.get( "/*", function( request, response ){
             if( cache[ absolutePath ].mtime === mtime ){
                 log( "Serve from cache ..." );
                 
-                defer( pm.makeStat ).then( ms => ms( stat, request ) );
+                defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
 
                 response.send( cache[ absolutePath ].html );
             } else {
@@ -70,7 +71,7 @@ nodepost.get( "/*", function( request, response ){
                 cache[ absolutePath ].mtime = mtime
                 cache[ absolutePath ].html = pm.getContent( absolutePath, mtime );
                 
-                defer( pm.makeStat ).then( ms => ms( stat, request ) );
+                defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
 
                 response.send( cache[ absolutePath ].html );
             }
@@ -81,7 +82,7 @@ nodepost.get( "/*", function( request, response ){
             cache[ absolutePath ].mtime = mtime;
             cache[ absolutePath ].html = pm.getContent( absolutePath, mtime );
 
-            defer( pm.makeStat ).then( ms => ms( stat, request ) );
+            defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
             
             response.send( cache[ absolutePath ].html );
         }

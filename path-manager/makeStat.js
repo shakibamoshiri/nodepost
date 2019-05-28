@@ -1,20 +1,23 @@
 const fs = require( "fs" );
 
-function makeStat( stat, request ){ 
-    const rp = request.path;
+const co = require( "./colorOrganizer" );
+const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
+
+function makeStat( stat, request, rootPath ){ 
+    const requestPath = request.path;
     const lastIP = request.ip;
-    if( !stat[ rp ] ){
-        stat[ rp ] = { lastIP: "", request: 0, visitor: {} };
+    if( !stat[ requestPath ] ){
+        stat[ requestPath ] = { lastIP: "", request: 0, visitor: {} };
     }
-    stat[ rp ].lastIP = lastIP;
-    stat[ rp ].request += 1;
-    stat[ rp ].visitor[ lastIP ] = ( stat[ rp ].visitor[ lastIP ] + 1 || 1 );
-    fs.writeFile( "./database/stat.json", JSON.stringify( stat ), function( error ){
+    stat[ requestPath ].lastIP = lastIP;
+    stat[ requestPath ].request += 1;
+    stat[ requestPath ].visitor[ lastIP ] = ( stat[ requestPath ].visitor[ lastIP ] + 1 || 1 );
+    fs.writeFile( rootPath + "/database/stat.json", JSON.stringify( stat ), function( error ){
         if( error ){
             console.log( error );
         }
     });
-    console.log( "Update state ...");
+    console.log( UPDATE, "state ...");
 }
 
 module.exports = makeStat;
