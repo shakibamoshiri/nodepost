@@ -40,7 +40,7 @@ const mainHtmlDir = fs.existsSync( globalRootPath + "/main-html/" );
 if( !mainHtmlDir ){
     try {
         fs.mkdirSync( globalRootPath + "/main-html/" );
-        log( CREATE, "./main-html/" );
+        log( CREATE, "main-html/" );
     } catch( exception ){
         log( exception.message );
         process.exit( 0 );
@@ -105,7 +105,7 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
         try {
             const dist = rootPath + "/main-html/" + currentTitle;
             fs.symlinkSync( ".." + path  + "/main.html", dist );
-            log( LINK, dist );
+            log( LINK, "./main-html/" + currentTitle, "=>", "." + path );
         } catch( exception ){
             if( exception.message.search( "EEXIST" ) === 0 ){
                 try {
@@ -115,7 +115,7 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
                     if( parentName !== undefined ){
                         const dist = rootPath + "/main-html/" + fileName + "-in-" + parentName;
                         fs.symlinkSync( ".." + path + "/main.html", dist );
-                        log( LINK, dist );
+                        log( LINK, "./main-html/" + currentTitle, "=>", "." + path );
                     } else {
                         log( "Not able to create symbolic link for:", fileName );
                     }
