@@ -1,13 +1,18 @@
 const fs       = require( "fs" );
 const path     = require( "path" );
+const crypto   = require('crypto');
 const express  = require( "express" );
 const pm       = require( "./path-manager/pathManager" );
+const co       = require( "./path-manager/colorOrganizer" );
 const rm       = require( "./route-manager/routeManager" );
 const dm       = require( "./database-manager/databaseManager" );
 
+const nodepost = express();
+
 const log = console.log;
 const rootPath = __dirname;
-const nodepost = express();
+const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
+const READ     = co.colorizeLine( "green" )( "Read:  " );
 
 const stat = dm.stat;
 const routeDirs = dm.routeDirs;
@@ -56,20 +61,21 @@ nodepost.get( "/*", function( request, response ){
         break;
 
         default:
-        const mtime = fs.statSync( absolutePath ).mtime.toString();
+        const mtime_path = fs.statSync( absolutePath ).mtime.toString();
         const mtime_main_html = fs.statSync( absolutePath + "/main.html"  ).mtime.toString();
+        const mtime = crypto.createHmac( "md5", mtime_path + mtime_main_html ).digest( "hex" );
 
         if( cache[ absolutePath ] ){
-            if( cache[ absolutePath ].mtime === mtime && mtime === mtime_main_html ){
-                log( "Serve from cache ..." );
+            if( cache[ absolutePath ].mtime === mtime ){
+                log( READ, "cache ..." );
                 
                 defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
 
                 response.send( cache[ absolutePath ].html );
             } else {
-                log( "Update the cache ..." );
+                log( UPDATE, "cache ..." );
                 
-                cache[ absolutePath ].mtime = mtime_main_html;
+                cache[ absolutePath ].mtime = mtime;
                 cache[ absolutePath ].html = pm.getContent( absolutePath, mtime_main_html );
                 
                 defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
@@ -77,10 +83,10 @@ nodepost.get( "/*", function( request, response ){
                 response.send( cache[ absolutePath ].html );
             }
         } else {
-            log( "Serve from file system ..." );
+            log( READ, "file system ..." );
             
             cache[ absolutePath ] = { mtime: "", html: "" };
-            cache[ absolutePath ].mtime = mtime_main_html;
+            cache[ absolutePath ].mtime = mtime;
             cache[ absolutePath ].html = pm.getContent( absolutePath, mtime_main_html );
 
             defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
