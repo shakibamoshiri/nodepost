@@ -15,11 +15,12 @@ const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
 const toYellow   = co.colorizeLine( "yellow" );
 
 const user = dm.user;
+const globalRootPath = __dirname.split( "/" ).slice( 0, -1 ).join( "/" );
 const log = console.log;
 
 const headerFile = (function(){
     try {
-        return fs.readFileSync( __dirname + "/../build/html/header.html", "utf8" );
+        return fs.readFileSync( globalRootPath + "/build/html/header.html", "utf8" );
     } catch( exception ){
         log( exception.message );
         log( "header.html is required!" );
@@ -35,11 +36,11 @@ const baseURL = user.baseURL;
 const homepageTitle = user.homeTitle;
 
 
-const mainHtmlDir = fs.existsSync( "main-html" );
+const mainHtmlDir = fs.existsSync( globalRootPath + "/main-html/" );
 if( !mainHtmlDir ){
     try {
-        fs.mkdirSync( "main-html" );
-        log( CREATE, "main-html/" );
+        fs.mkdirSync( globalRootPath + "/main-html/" );
+        log( CREATE, "./main-html/" );
     } catch( exception ){
         log( exception.message );
         process.exit( 0 );
@@ -102,7 +103,7 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
         }
 
         try {
-            const dist = "./main-html/" + currentTitle;
+            const dist = rootPath + "/main-html/" + currentTitle;
             fs.symlinkSync( ".." + path  + "/main.html", dist );
             log( LINK, dist );
         } catch( exception ){
@@ -112,7 +113,7 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
                     const fileName = dirs.pop();
                     const parentName = dirs.pop();
                     if( parentName !== undefined ){
-                        const dist = "./main-html/" + fileName + "-in-" + parentName;
+                        const dist = rootPath + "/main-html/" + fileName + "-in-" + parentName;
                         fs.symlinkSync( ".." + path + "/main.html", dist );
                         log( LINK, dist );
                     } else {
@@ -126,15 +127,15 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
     });
 }
 
-function deleteDir( notExistKey ){
+function deleteDir( notExistKey, rootPath ){
     notExistKey.forEach(function( path ){
         try {
-            rmdirSyncRec( "." + path );
-            fs.readdirSync( "./main-html" ).forEach(function( file ){
-                const dist = "./main-html/" + file;
+            rmdirSyncRec( rootPath + path );
+            fs.readdirSync( rootPath + "/main-html" ).forEach(function( file ){
+                const dist = rootPath + "/main-html/" + file;
                 if( !fs.existsSync( dist ) ){
                     fs.unlinkSync( dist );
-                    log( UNLINK, dist );
+                    log( UNLINK, "./main-html/" + file );
                 }
             });
             log( DELETE, "." + path );
@@ -144,22 +145,22 @@ function deleteDir( notExistKey ){
     });
 }
 
-function updateRoutes( routeDirs, routeLink, routePath ){
-    fs.writeFile( "./database/route.dirs", routeDirs.join( "\n" ) , function( error ){
+function updateRoutes( routeDirs, routeLink, routePath, rootPath ){
+    fs.writeFile( rootPath + "/database/route.dirs", routeDirs.join( "\n" ) , function( error ){
         if( error ){
             console.log( error.message );
         }
         log( UPDATE, "route.dirs ..." );
     });
 
-    fs.writeFile( "./database/route.link", routeLink , function( error ){
+    fs.writeFile( rootPath + "/database/route.link", routeLink , function( error ){
         if( error ){
             console.log( error.message );
         }
         log( UPDATE, "route.link ..." );
     });
 
-    fs.writeFile( "./database/route.path", routePath , function( error ){
+    fs.writeFile( rootPath + "/database/route.path", routePath , function( error ){
         if( error ){
             console.log( error.message );
         }
@@ -201,7 +202,7 @@ function manageDir( routeJson, routeDirs, rootPath ){
         const routePath = validRequest.join( "\n" ) + "\n";
 
         const notExistDirs = routeJson.filter(function( path ){
-            return !fs.existsSync( "." + path );
+            return !fs.existsSync( rootPath + path );
         });
 
         // check for not existing directories
@@ -219,11 +220,11 @@ function manageDir( routeJson, routeDirs, rootPath ){
             return routeJson.indexOf( key ) === -1;
         });
 
-        deleteDir( notExistKey );
+        deleteDir( notExistKey, rootPath );
 
         routeDirs = routeJson.slice( 0 );
     
-        updateRoutes( routeDirs, routeLink, routePath );
+        updateRoutes( routeDirs, routeLink, routePath, rootPath );
 
     } // end of hashes' comparison
 }
