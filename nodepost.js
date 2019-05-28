@@ -6,7 +6,7 @@ const rm       = require( "./route-manager/routeManager" );
 const dm       = require( "./database-manager/databaseManager" );
 
 const log = console.log;
-const rootPath = rootPath;
+const rootPath = __dirname;
 const nodepost = express();
 
 const stat = dm.stat;
