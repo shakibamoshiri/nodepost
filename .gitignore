@@ -13,3 +13,4 @@ database/stat.json
 package-lock.json
 coverage/
 main-html/
+clean.sh
