@@ -11,6 +11,7 @@ const CREATE = co.colorizeLine( "green" )( "Create:" );
 const DELETE   = co.colorizeLine( "red" )( "Delete:" );
 const LINK  = co.colorizeLine( "cyan" )( "Link:  " );
 const UNLINK  = co.colorizeLine( "cyan" )( "Unlink:" );
+const H_LINK  = co.colorizeLine( "cyan" )( "H-Link:" );
 const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
 const toYellow   = co.colorizeLine( "yellow" );
 
@@ -168,6 +169,39 @@ function updateRoutes( routeDirs, routeLink, routePath, rootPath ){
     });
 }
 
+function createHardLink( homePath, rootPath ){
+    const db    = rootPath + homePath + "/database";
+    const posts = db + "/posts.json";
+    const user  = db + "/user.json";
+
+    fs.exists( db, function( exist ){
+        if( !exist ){
+            try {
+                fs.mkdirSync( db );
+
+                fs.link( rootPath + "/database/posts.json", posts, function( exception ){
+                    if( exception ){
+                        log( exception.message );
+                    } else {
+                        log( H_LINK, "." + homePath + "/database/posts.json" );
+                    }
+                });
+
+                fs.link( rootPath + "/database/user.json", user, function( exception ){
+                    if( exception ){
+                        log( exception.message );
+                    } else {
+                        log( H_LINK, "." + homePath + "/database/user.json" );
+                    }
+                });
+            } catch( exception ){
+                log( exception.message );
+                log( "Not able to add database to", "." + homePath );
+            }
+        }
+    });
+}
+
 // create and delete directories
 function manageDir( routeJson, routeDirs, rootPath ){
     
@@ -226,6 +260,8 @@ function manageDir( routeJson, routeDirs, rootPath ){
         updateRoutes( routeDirs, routeLink, routePath, rootPath );
 
     } // end of hashes' comparison
+
+    createHardLink( routeJson[ 0 ], rootPath );
 }
 
 module.exports = { manageDir, getContent, makeStat };
