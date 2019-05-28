@@ -1,5 +1,8 @@
 const fs = require( "fs" );
 
+const co = require( "./colorOrganizer" );
+const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
+
 function makeStat( stat, request, rootPath ){ 
     const requestPath = request.path;
     const lastIP = request.ip;
@@ -14,7 +17,7 @@ function makeStat( stat, request, rootPath ){
             console.log( error );
         }
     });
-    console.log( "Update state ...");
+    console.log( UPDATE, "state ...");
 }
 
 module.exports = makeStat;
