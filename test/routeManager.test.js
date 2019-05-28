@@ -1,7 +1,7 @@
 const assert = require('assert');
 
 const util = require('util');
-const json = require( "../database/route.json" );
+const json = require( "../database/posts.json" );
 const rm = require( "../route-manager/routeManager.js" );
 const makeRoute = rm.makeRoute;
 
