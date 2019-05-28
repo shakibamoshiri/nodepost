@@ -12,10 +12,10 @@ const nodepost = express();
 const stat = dm.stat;
 const routeDirs = dm.routeDirs;
 const statPath = dm.statPath;
-const route_json = dm.route_json;
+const postsJson = dm.postsJson;
 
 // create an array of valid paths we have
-const routeJson = rm.makeRoute( route_json );
+const routeJson = rm.makeRoute( postsJson );
 
 // create or delete new directories
 pm.manageDir( routeJson, routeDirs, rootPath );
