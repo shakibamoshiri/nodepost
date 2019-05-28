@@ -57,9 +57,10 @@ nodepost.get( "/*", function( request, response ){
 
         default:
         const mtime = fs.statSync( absolutePath ).mtime.toString();
+        const mtime_main_html = fs.statSync( absolutePath + "/main.html"  ).mtime.toString();
 
         if( cache[ absolutePath ] ){
-            if( cache[ absolutePath ].mtime === mtime ){
+            if( cache[ absolutePath ].mtime === mtime && mtime === mtime_main_html ){
                 log( "Serve from cache ..." );
                 
                 defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
@@ -68,8 +69,8 @@ nodepost.get( "/*", function( request, response ){
             } else {
                 log( "Update the cache ..." );
                 
-                cache[ absolutePath ].mtime = mtime
-                cache[ absolutePath ].html = pm.getContent( absolutePath, mtime );
+                cache[ absolutePath ].mtime = mtime_main_html;
+                cache[ absolutePath ].html = pm.getContent( absolutePath, mtime_main_html );
                 
                 defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
 
@@ -79,8 +80,8 @@ nodepost.get( "/*", function( request, response ){
             log( "Serve from file system ..." );
             
             cache[ absolutePath ] = { mtime: "", html: "" };
-            cache[ absolutePath ].mtime = mtime;
-            cache[ absolutePath ].html = pm.getContent( absolutePath, mtime );
+            cache[ absolutePath ].mtime = mtime_main_html;
+            cache[ absolutePath ].html = pm.getContent( absolutePath, mtime_main_html );
 
             defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
             
