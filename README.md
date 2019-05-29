@@ -25,8 +25,10 @@
     <a target="_blank" href="http://jsfun.ir">jsfun.ir</a>
 </h4>
 
-<h4>An image that worth 1000 words!</h4>
-<img src="public/img/nodepost-first-run.png" alt="nodepost-first-run.png">
+<h4>An image that is worth 1000 words!</h4>
+<p align="center">
+    <img src="public/img/nodepost-first-run.png" alt="nodepost-first-run.png">
+</p>
 
 <h1 align="center">Strengths</h1>
 
