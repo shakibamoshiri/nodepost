@@ -16,7 +16,7 @@ const READ     = co.colorizeLine( "green" )( "Read:  " );
 
 const stat = dm.stat;
 const routeDirs = dm.routeDirs;
-const statPath = dm.statPath;
+const statAddress = dm.statAddress;
 const postsJson = dm.postsJson;
 
 // create an array of valid paths we have
@@ -54,7 +54,7 @@ nodepost.get( "/*", function( request, response ){
     // base on Valid Path
     switch( validPath ){
         case false:
-        if( statPath !== "" && requestPath === statPath )
+        if( statAddress !== "" && requestPath === statAddress )
             response.send( stat );
          else
             response.send( pm.getContent( rootPath + "/error-page/404" ) );

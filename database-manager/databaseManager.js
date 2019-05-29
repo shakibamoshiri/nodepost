@@ -51,14 +51,14 @@ const user = (function(){
      }
 }());
 
-const statPath = (function(){
+const statAddress = (function(){
     try {
-        return JSON.parse( fs.readFileSync( globalRootPath + "/database/user.json" , "utf8" ) ).statPath;
+        return JSON.parse( fs.readFileSync( globalRootPath + "/database/user.json" , "utf8" ) ).statAddress;
     } catch( exception ){
         log( exception.message );
-        log( "statPath fallback will be /stat" );
+        log( "statAddress fallback will be /stat" );
         return "/stat";
     }
 }());
 
-module.exports = { stat, statPath, routeDirs, postsJson, user };
+module.exports = { stat, statAddress, routeDirs, postsJson, user };
