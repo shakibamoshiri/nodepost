@@ -99,3 +99,9 @@ nodepost.get( "/*", function( request, response ){
 nodepost.listen( 1400, function(){
     log( "Server is running at http://localhost:1400/" );
 });
+
+process.on('uncaughtException', function ( exception ) {
+    log( "uncaughtException happened ..." );
+    log( "message:", exception.message );
+    process.exit( 0 );
+});
