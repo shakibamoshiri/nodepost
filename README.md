@@ -50,7 +50,17 @@
 
 <h1 align="center">More</h1>
 
-<a target="_blank" href="http://nodepost.ir">nodepost.ir</a>
+ - <a target="_blank" href="http://nodepost.ir">nodepost.ir</a>
+  - <a href="http://nodepost.ir/document/">document</a>
+    - <a href="http://nodepost.ir/document/requirement">requirement</a>
+    - <a href="http://nodepost.ir/document/how-to-use">how to use</a>
+    - <a href="http://nodepost.ir/document/how-to-setup">how to setup</a>
+    - <a href="http://nodepost.ir/document/how-to-deploy">how to deploy</a>
+    - <a href="http://nodepost.ir/document/how-it-works">how it works</a>
+    - <a href="">contribute</a>
+  - <a href="http://nodepost.ir/use-case/">use case</a>
+  - <a href="http://nodepost.ir/first-run/">first run</a>
+
 
 <h1 align="center">License</h1>
 <p id="bottom" align="center">
