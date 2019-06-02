@@ -38,7 +38,7 @@
  - Auto Time Update
  - Auto "Edit on Github"
  - Easy Performance Test
- - Easy Statistics
+ - Easy Monitoring
  - Light weight
  - Unlimited nesting posts
  - As a microservice
