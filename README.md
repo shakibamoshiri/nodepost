@@ -10,9 +10,15 @@
 {
     "home": {
         "effective-javascript": {
-            "strict-mode": "",
-            "implicit-coercion-explicit-coercion": "",
-            "prefer-primitive-types": ""
+            "accustoming yourself with javascript": {
+                "strict mode": "",
+                "implicit coercion explicit coercion": "",
+                "prefer primitive types": ""
+            },
+            "variable scope": {
+                "minimize use of global variable": ""
+            },
+            "working with functions": ""
         },
         "effective dom": "",
         "back-end with node.js": ""
