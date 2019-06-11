@@ -14,6 +14,6 @@ package-lock.json
 coverage/
 main-html/
 clean.sh
-main-js/*
-!main-js/home.js
+react-js/build/
+!react-js/*.js
 

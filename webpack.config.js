@@ -1,6 +1,6 @@
 const fs = require( "fs" );
 
-const ENTRY_PATH = __dirname + "/main-js/";
+const ENTRY_PATH = __dirname + "/react-js/";
 const OUTPUT_PATH = ENTRY_PATH + "/build/"
 
 const mainJsFiles = fs.readdirSync( ENTRY_PATH )
