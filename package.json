@@ -24,6 +24,8 @@
   },
   "scripts": {
     "start": "node-dev nodepost.js",
+    "webpack": "./node_modules/.bin/webpack",
+    "webpack.watch": "./node_modules/.bin/webpack -w",
     "css.build": "sass  src/css/desktop.scss build/css/desktop.css",
     "css.build.min": "sass --style compressed src/css/desktop.scss build/css/desktop.min.css",
     "css.prefix": "./node_modules/.bin/postcss build/css/desktop.css --use=autoprefixer --map --no-map --output build/css/desktop.prefixed.css",
