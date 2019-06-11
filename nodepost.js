@@ -28,7 +28,7 @@ pm.manageDir( routeJson, routeDirs, rootPath );
 // always servse thise
 nodepost.use( "/build",  express.static( rootPath + "/build" ) );
 nodepost.use( "/vendor",  express.static( rootPath + "/vendor" ) );
-nodepost.use( "/main-js",  express.static( rootPath + "/main-js" ) );
+nodepost.use( "/react-js",  express.static( rootPath + "/react-js" ) );
 
 // cache each post after last modification
 const cache = {};
