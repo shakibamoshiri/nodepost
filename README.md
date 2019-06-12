@@ -20,7 +20,9 @@
             },
             "working with functions": ""
         },
-        "effective dom": "",
+        "react": {
+            "three JSX main patterns": ""
+        },
         "back-end with node.js": ""
     }
 }
