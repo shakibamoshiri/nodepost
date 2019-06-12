@@ -59,12 +59,13 @@ p {
   cursor: pointer;
 }
 */
+.sub-title {
+    margin-top: 100px;
+}
 
-.eval-code {
-	background: #fff;
-	display: block;
-	color: #000;
-	padding: 10px;
+.code-result {
+	background-color: #eee;
+	padding: 10px 0;
 }
 
 @font-face {

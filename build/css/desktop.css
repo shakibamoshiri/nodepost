@@ -62,11 +62,12 @@ p {
   cursor: pointer;
 }
 */
-.eval-code {
-  background: #fff;
-  display: block;
-  color: #000;
-  padding: 10px; }
+.sub-title {
+  margin-top: 100px; }
+
+.code-result {
+  background-color: #eee;
+  padding: 10px 0; }
 
 @font-face {
   font-family: "Montserrat";
