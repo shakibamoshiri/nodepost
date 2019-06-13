@@ -8,6 +8,7 @@ const rm       = require( "./route-manager/routeManager" );
 const dm       = require( "./database-manager/databaseManager" );
 
 const nodepost = express();
+const PORT     = 1400;
 
 const log = console.log;
 const rootPath = __dirname;
@@ -97,8 +98,8 @@ nodepost.get( "/*", function( request, response ){
     }
 });
 
-nodepost.listen( 1400, function(){
-    log( "Server is running at http://localhost:1400/" );
+nodepost.listen( PORT, function(){
+    log( `Server is running at http://localhost:${ PORT }/` );
 });
 
 process.on('uncaughtException', function ( exception ) {
