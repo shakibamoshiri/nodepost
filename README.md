@@ -21,7 +21,11 @@
             "working with functions": ""
         },
         "react": {
-            "three JSX main patterns": ""
+            "three JSX main patterns": "",
+            "JSX direct function call": "",
+            "stateless component": "",
+            "stateful component": "",
+            "component communication": ""
         },
         "back-end with node.js": ""
     }
