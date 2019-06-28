@@ -2,6 +2,7 @@ const fs       = require( "fs" );
 const path     = require( "path" );
 const crypto   = require('crypto');
 const express  = require( "express" );
+const chp      = require( "child_process" );
 const pm       = require( "./path-manager/pathManager" );
 const co       = require( "./path-manager/colorOrganizer" );
 const rm       = require( "./route-manager/routeManager" );
@@ -96,6 +97,28 @@ nodepost.get( "/*", function( request, response ){
             response.send( cache[ absolutePath ].html );
         }
     }
+});
+
+nodepost.post( "/gitpush", function( request, response ){
+    response.status( 200 ).end();
+
+    const gitPull  = chp.spawn( "git", [ "pull" ] );
+
+    gitPull.stdout.on( "data", function( data ){
+        log( "stdout: ", data.toString() );
+    });
+
+    gitPull.stderr.on( "data", function( data ){
+        log( "stderr: ", data.toString() );
+    });
+
+    gitPull.on( "close", function( code ){
+        log( "exit code:", code );
+    });
+
+    gitPull.on( "error", function( code ){
+        log( "error code:", code );
+    });
 });
 
 nodepost.listen( PORT, function(){
