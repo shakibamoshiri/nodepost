@@ -100,25 +100,35 @@ nodepost.get( "/*", function( request, response ){
 });
 
 nodepost.post( "/gitpush", function( request, response ){
+    request.on( "data", function( chunk ){
+        const secret = "this-will-be-the-secret-key";
+        const sig = "sha1=" + crypto.createHmac( "sha1", secret ).update( chunk.toString() ).digest( "hex" );
+        const x_hub_signature =  request.headers['x-hub-signature'];
+        if( x_hub_signature === sig ){
+            log( "POST from github" );
+            const gitPull  = chp.spawn( "git", [ "pull" ] );
+
+            gitPull.stdout.on( "data", function( data ){
+                log( "stdout: ", data.toString() );
+            });
+
+            gitPull.stderr.on( "data", function( data ){
+                log( "stderr: ", data.toString() );
+            });
+
+            gitPull.on( "close", function( code ){
+                log( "exit code:", code );
+            });
+
+            gitPull.on( "error", function( code ){
+                log( "error code:", code );
+            });
+        } else {
+            log( "unknown POST" );
+        }
+    });
+
     response.status( 200 ).end();
-
-    const gitPull  = chp.spawn( "git", [ "pull" ] );
-
-    gitPull.stdout.on( "data", function( data ){
-        log( "stdout: ", data.toString() );
-    });
-
-    gitPull.stderr.on( "data", function( data ){
-        log( "stderr: ", data.toString() );
-    });
-
-    gitPull.on( "close", function( code ){
-        log( "exit code:", code );
-    });
-
-    gitPull.on( "error", function( code ){
-        log( "error code:", code );
-    });
 });
 
 nodepost.listen( PORT, function(){
