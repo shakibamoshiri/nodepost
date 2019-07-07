@@ -5,6 +5,15 @@ body { position: relative; overflow: auto; height: 100%;  font-family: 'Montserr
     height: 300px;
     background-color: #fe0;
     display: flex;
+    .content-r {
+        overflow: hidden;
+        a {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+            overflow: hidden;
+        }
+    }
 }
 
 .footer {
