@@ -17,6 +17,13 @@ body {
   height: 300px;
   background-color: #fe0;
   display: flex; }
+  .header .content-r {
+    overflow: hidden; }
+    .header .content-r a {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+      overflow: hidden; }
 
 .footer {
   background-color: #fe0;
