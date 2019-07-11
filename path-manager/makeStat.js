@@ -17,7 +17,7 @@ function makeStat( stat, request, rootPath ){
             console.log( error );
         }
     });
-    console.log( UPDATE, "state ...");
+    console.log( UPDATE, "stat ...");
 }
 
 module.exports = makeStat;
