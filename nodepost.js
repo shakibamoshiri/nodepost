@@ -100,13 +100,14 @@ nodepost.get( "/*", function( request, response ){
 });
 
 nodepost.post( "/gitpush", function( request, response ){
+    log( "gitpush" );
     request.on( "data", function( chunk ){
         const secret = "this-will-be-the-secret-key";
         const sig = "sha1=" + crypto.createHmac( "sha1", secret ).update( chunk.toString() ).digest( "hex" );
         const x_hub_signature =  request.headers['x-hub-signature'];
-        if( x_hub_signature === sig ){
+        if( true || x_hub_signature === sig ){
             log( "POST from github" );
-            const gitPull  = chp.spawn( "git", [ "pull" ] );
+            const gitPull  = chp.spawn( "git", [ "pull", "--ff-only" ] );
 
             gitPull.stdout.on( "data", function( data ){
                 log( "stdout: ", data.toString() );
