@@ -5,7 +5,8 @@ const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
 
 function makeStat( stat, request, rootPath ){ 
     const requestPath = request.path;
-    const lastIP = request.ip;
+    const xForwardedFor = request.headers[ "x-forwarded-for" ];
+    const lastIP = xForwardedFor || request.ip;
     if( !stat[ requestPath ] ){
         stat[ requestPath ] = { lastIP: "", request: 0, visitor: {} };
     }
