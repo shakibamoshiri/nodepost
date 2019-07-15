@@ -15,6 +15,7 @@ const log = console.log;
 const rootPath = __dirname;
 const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
 const READ     = co.colorizeLine( "green" )( "Read:  " );
+const USER     = "User:  ";
 
 const stat = dm.stat;
 const routeDirs = dm.routeDirs;
@@ -53,6 +54,8 @@ nodepost.get( "/*", function( request, response ){
     // true thus the path was found
     // false thus the path was not found
     const validPath = routeJson.some( ( path ) => path === actualPath );
+    const xForwardedFor = request.headers[ "x-forwarded-for" ];
+    const userAgent =  request.headers[ "user-agent" ];
 
     // base on Valid Path
     switch( validPath ){
@@ -64,6 +67,9 @@ nodepost.get( "/*", function( request, response ){
         break;
 
         default:
+        log( xForwardedFor, requestPath );
+        log( USER, userAgent );
+
         const mtime_path = fs.statSync( absolutePath ).mtime.toString();
         const mtime_main_html = fs.statSync( absolutePath + "/main.html"  ).mtime.toString();
         const mtime = crypto.createHmac( "md5", mtime_path + mtime_main_html ).digest( "hex" );
