@@ -31,6 +31,7 @@ function checkBundleFile( path ){
         });
         return list;
     }
+    return [];
 }
 
 const bundledFiles = checkBundleFile( OUTPUT_PATH );
