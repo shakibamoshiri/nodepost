@@ -113,7 +113,7 @@ nodepost.post( "/gitpush", function( request, response ){
         const x_hub_signature =  request.headers['x-hub-signature'];
         if( true || x_hub_signature === sig ){
             log( "POST from github" );
-            const gitPull  = chp.spawn( "git", [ "pull", "--ff-only" ] );
+            const gitPull  = chp.spawn( "git", [ "pull" ] );
 
             gitPull.stdout.on( "data", function( data ){
                 log( "stdout: ", data.toString() );
