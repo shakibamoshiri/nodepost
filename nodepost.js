@@ -28,7 +28,7 @@ const routeJson = rm.makeRoute( postsJson );
 // create or delete new directories
 pm.manageDir( routeJson, routeDirs, rootPath );
 
-// always servse thise
+// always servse these
 nodepost.use( "/build",  express.static( rootPath + "/build" ) );
 nodepost.use( "/vendor",  express.static( rootPath + "/vendor" ) );
 nodepost.use( "/react-js",  express.static( rootPath + "/react-js" ) );
@@ -111,7 +111,7 @@ nodepost.post( "/gitpush", function( request, response ){
         const secret = "this-will-be-the-secret-key";
         const sig = "sha1=" + crypto.createHmac( "sha1", secret ).update( chunk.toString() ).digest( "hex" );
         const x_hub_signature =  request.headers['x-hub-signature'];
-        if( true || x_hub_signature === sig ){
+        if( x_hub_signature === sig ){
             log( "POST from github" );
             const gitPull  = chp.spawn( "git", [ "pull" ] );
 
