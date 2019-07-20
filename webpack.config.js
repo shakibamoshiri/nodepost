@@ -61,10 +61,11 @@ function readDirRec( path, list = [] ){
     then if skip those that already in OUTPUT_PATH
     and store the rest on an object and return it
 */
-const mainJsFiles =
-readDirRec( ENTRY_PATH ).filter(function( file ){
+const mainJsFiles = readDirRec( ENTRY_PATH ).filter(function( file ){
     return path.basename( file ) === "main.js";
-}).reduce(function( result, name ){
+});
+
+const jsNotBundled = mainJsFiles.reduce(function( result, name ){
     const temp = name.split( "/" );
     const key = temp.slice( temp.length - 2, -1 ).pop();
     if( bundledFiles.length ){
@@ -85,7 +86,7 @@ readDirRec( ENTRY_PATH ).filter(function( file ){
     property or all the file already have been bundled
     do nothing.
 */
-if( Object.keys( mainJsFiles ).length === 0 ){
+if( Object.keys( jsNotBundled ).length === 0 ){
     log( "webpack exited in either case of:" );
     log( `1. no main.js files found in ${ ENTRY_PATH  }` );
     log( `2. you already have bundled files in ${ OUTPUT_PATH  }` );
@@ -94,7 +95,7 @@ if( Object.keys( mainJsFiles ).length === 0 ){
 
 module.exports = {
     mode: 'production',
-    entry: mainJsFiles,
+    entry: jsNotBundled,
     output: {
         path: OUTPUT_PATH,
         filename: '[name].bundle.js',
