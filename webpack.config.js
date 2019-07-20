@@ -70,7 +70,7 @@ const jsNotBundled = mainJsFiles.reduce(function( result, name ){
     const key = temp.slice( temp.length - 2, -1 ).pop();
     if( bundledFiles.length ){
         const foundAny = bundledFiles.every(function( bundleName ){
-            return !bundleName.startsWith( key )
+            return bundleName !== ( key + ".bundle.js" )
         });
         if( foundAny ){
             result[ key ] = name;
