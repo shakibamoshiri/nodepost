@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+const fs = require( "fs" );
+const path = require( "path" );
+const log = console.log;
+
+const programName = path.basename( process.argv[ 1 ] )
+const ENTRY_PATH = process.argv[ 2 ];
+if( !ENTRY_PATH ){ log( `${ programName } [Valid Path]` );
+    process.exit( 0 );
+}
+
+function readDirRec( path, list = [] ){
+   if( fs.existsSync( path ) ){
+       fs.readdirSync( path ).forEach(function( dir ){
+           const newPath = path + "/" + dir;
+           if( fs.statSync( newPath ).isDirectory() ){
+               readDirRec( newPath, list );
+           } else {
+               list.push( newPath );
+           }
+       });
+       list.push( path );
+   }
+
+   return list;
+}
+
+const mainJsFiles =
+readDirRec( ENTRY_PATH ).filter(function( file ){
+    return path.basename( file ) === "main.js";
+});
+
+mainJsFiles.forEach(function( file, index ){
+    log( index + 1, file )
+})
