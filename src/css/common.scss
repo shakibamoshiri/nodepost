@@ -53,6 +53,27 @@ p {
   display: inline-block;
 }
 
+,quote {
+    padding: 10px;
+    border-left: 10px #000 solid;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.img-cards {
+    display: flex;
+    flex-flow: row wrap;
+}
+.img-card {
+    flex: 1 1 46%;
+    padding: 10px;
+    margin: 10px auto;
+    box-shadow: 0 0 10px #ccc;
+
+    > img {
+        width: 100%;
+    }
+}
+
 /*
 .language-javascript.line-numbers > code:first-of-type::after {
   content: "";
