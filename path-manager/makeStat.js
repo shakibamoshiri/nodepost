@@ -3,7 +3,8 @@ const fs = require( "fs" );
 const co = require( "./colorOrganizer" );
 const UPDATE   = co.colorizeLine( "yellow" )( "Update:" );
 
-function makeStat( stat, request, rootPath ){ 
+async function makeStat( stat, request, rootPath ){
+    await null;
     const requestPath = request.path;
     const xForwardedFor = request.headers[ "x-forwarded-for" ];
     const lastIP = xForwardedFor || request.ip;

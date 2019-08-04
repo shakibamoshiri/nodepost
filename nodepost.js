@@ -28,7 +28,7 @@ const routeJson = rm.makeRoute( postsJson );
 // create or delete new directories
 pm.manageDir( routeJson, routeDirs, rootPath );
 
-// always servse these
+// always serve these
 nodepost.use( "/build",  express.static( rootPath + "/build" ) );
 nodepost.use( "/vendor",  express.static( rootPath + "/vendor" ) );
 nodepost.use( "/react-js",  express.static( rootPath + "/react-js" ) );
@@ -37,7 +37,7 @@ nodepost.use( "/react-js",  express.static( rootPath + "/react-js" ) );
 const cache = {};
 
 // for deferring some functions
-async function defer( F ){
+async function defer( fn, ...args ){
     return F;
 }
 
@@ -78,7 +78,8 @@ nodepost.get( "/*", function( request, response ){
             if( cache[ absolutePath ].mtime === mtime ){
                 log( READ, "cache ..." );
                 
-                defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
+                // defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
+                pm.makeStat( stat, request, rootPath );
 
                 response.send( cache[ absolutePath ].html );
             } else {
@@ -87,7 +88,8 @@ nodepost.get( "/*", function( request, response ){
                 cache[ absolutePath ].mtime = mtime;
                 cache[ absolutePath ].html = pm.getContent( absolutePath, mtime_main_html );
                 
-                defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
+                // defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
+                pm.makeStat( stat, request, rootPath );
 
                 response.send( cache[ absolutePath ].html );
             }
@@ -98,10 +100,12 @@ nodepost.get( "/*", function( request, response ){
             cache[ absolutePath ].mtime = mtime;
             cache[ absolutePath ].html = pm.getContent( absolutePath, mtime_main_html );
 
-            defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
+            // defer( pm.makeStat ).then( ms => ms( stat, request, rootPath ) );
+            pm.makeStat( stat, request, rootPath );
             
             response.send( cache[ absolutePath ].html );
         }
+        log( "end of response" );
     }
 });
 
