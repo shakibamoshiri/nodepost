@@ -3,7 +3,7 @@ body { position: relative; overflow: auto; height: 100%;  font-family: 'Montserr
 
 .header {
     height: 300px;
-    background-color: #fe0;
+    background-color: #fd0;
     display: flex;
     .content-r {
         overflow: hidden;
@@ -14,11 +14,6 @@ body { position: relative; overflow: auto; height: 100%;  font-family: 'Montserr
             overflow: hidden;
         }
     }
-}
-
-.footer {
-    background-color: #fe0;
-    display: flex;
 }
 
 .main {
@@ -82,7 +77,7 @@ p {
   bottom: 20px;
   border-width: 20px;
   border-style: solid;
-  border-color: transparent transparent transparent #fe0;
+  border-color: transparent transparent transparent #fd0;
   width: 0;
   height: 0;
   display: block;
