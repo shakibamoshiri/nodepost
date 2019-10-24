@@ -19,12 +19,12 @@ const user = dm.user;
 const globalRootPath = __dirname.split( "/" ).slice( 0, -1 ).join( "/" );
 const log = console.log;
 
-const headerFile = (function(){
+const tagsInHeade = (function(){
     try {
-        return fs.readFileSync( globalRootPath + "/build/html/header.html", "utf8" );
+        return fs.readFileSync( globalRootPath + "/src/html/tags-in-head.html", "utf8" );
     } catch( exception ){
         log( exception.message );
-        log( "header.html is required!" );
+        log( "tags-in-head.html is required!" );
         process.exit( 0 );
     }
 }());
@@ -52,8 +52,9 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
     notExistDirs.forEach(function( path, index ){
         // split each name
         const names = path.match( /\/?[A-Za-z0-9_.-]+/g );
-        const tmp = path.replace( homePath, "/" );
-        const currentPath = tmp === "/" ? baseURL + tmp : baseURL + tmp + "/";
+        const dirPath = path.replace( homePath, "/" );
+        const currentPath = dirPath === "/" ? baseURL + dirPath : baseURL + dirPath + "/";
+
         // old: separate blog contents from main repository
         // const gitPath = currentPath;
         // new include blog contents in main repository
@@ -83,11 +84,18 @@ function createDir( notExistDirs, routeDirs, validRequest, homePath, rootPath ){
 </main>`;
 
     const header =
-`${ headerFile.replace( '<base href="">', `<base href="${ currentPath }">` ) }
-<div class="header">
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+${ tagsInHeade }
+    <base href="${ currentPath }">
+    <title>${ dirPath === "/" && homepageTitle || currentTitle }</title>
+</head>
+<body class="line-numbers">
+    <div class="header">
         <div class="content-r">
           <h1>
-            ${ tmp === "/" ?  homepageTitle : `<a href="${ baseURL }/" >${ homepageTitle }</a>` }
+            ${ dirPath === "/" ?  homepageTitle : `<a href="${ baseURL }/" >${ homepageTitle }</a>` }
           </h1>
           <hr>
           <h1><a href="${ baseURL + parentLink }">${ parentTitle || "" }</a></h1>
